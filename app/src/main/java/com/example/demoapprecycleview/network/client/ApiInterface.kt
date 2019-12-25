@@ -1,5 +1,6 @@
 package com.example.demoapprecycleview.network.client
 
+import com.example.demoapprecycleview.model.BreakfastMenu
 import com.example.demoapprecycleview.model.HomeDataResponse
 import com.example.demoapprecycleview.model.Rss
 import com.example.demoapprecycleview.model.RssFeed
@@ -19,5 +20,8 @@ interface ApiInterface {
     @GET("data/read.xml")
     fun getData(): Call<Rss>
 
+    @GET("xml/simple.xml")
+    @Headers("Accept: application/xml", "User-Agent: Retrofit-Sample-App")
+    fun getBreakfastMenu():Call<BreakfastMenu>
 }
 

@@ -10,10 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.chartshealthcare.network.model.ApiResponse
 import com.commonlibrary.util.Utils
 import com.example.demoapprecycleview.databinding.ActivityMainBinding
-import com.example.demoapprecycleview.model.HomeDataRequest
-import com.example.demoapprecycleview.model.HomeDataResponse
-import com.example.demoapprecycleview.model.Rss
-import com.example.demoapprecycleview.model.RssFeed
+import com.example.demoapprecycleview.model.*
 import com.example.demoapprecycleview.network.client.ApiInterface
 import com.example.demoapprecycleview.network.model.ResponseWrapper
 import com.example.demoapprecycleview.repository.HomeRepository
@@ -35,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private var coursesList: MutableList<HomeDataResponse.CoursesData> = arrayListOf()
     private var homeCourseAdapter = HomeCourseAdapter()
 
-    private val BASE_URL = "https://howtodoinjava.com/"
+    private val BASE_URL = "https://www.w3schools.com/"
     private val builder = Retrofit.Builder().baseUrl(BASE_URL)
         .addConverterFactory(SimpleXmlConverterFactory.create())
     private val loggingInterceptor = HttpLoggingInterceptor()
@@ -110,19 +107,19 @@ class MainActivity : AppCompatActivity() {
         builder.client(httpClient.build())
         val retrofit = builder.build()
         val rssService: ApiInterface = retrofit.create(ApiInterface::class.java)
-        val callAsync: Call<Rss> = rssService.getData()
-        callAsync.enqueue(object : Callback<Rss> {
-            override fun onResponse(call: Call<Rss>, response: Response<Rss>) {
+        val callAsync: Call<BreakfastMenu> = rssService.getBreakfastMenu()
+        callAsync.enqueue(object : Callback<BreakfastMenu> {
+            override fun onResponse(call: Call<BreakfastMenu>, response: Response<BreakfastMenu>) {
                 if (response.isSuccessful()) {
                     val apiResponse = response.body()
                     // API response
-                    System.out.println("=====>$apiResponse")
+                    System.out.println("=====>${apiResponse?.getFoodList()?.get(0)?.getName()}")
                 } else {
                     System.out.println("Request Error :: " + response.errorBody())
                 }
             }
 
-            override fun onFailure(call: Call<Rss>, t: Throwable) {
+            override fun onFailure(call: Call<BreakfastMenu>, t: Throwable) {
                 if (call.isCanceled()) {
                     println("Call was cancelled forcefully")
                 } else {
