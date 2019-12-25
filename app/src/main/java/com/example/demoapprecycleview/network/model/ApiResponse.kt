@@ -1,6 +1,6 @@
 package com.chartshealthcare.network.model
 
-import com.kotlinusermodule.network.model.ResponseWrapper
+import com.example.demoapprecycleview.network.model.ResponseWrapper
 
 
 class ApiResponse(

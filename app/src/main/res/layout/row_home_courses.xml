@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="courseDataName"
             type="com.example.demoapprecycleview.model.HomeDataResponse.CoursesData" />
@@ -17,13 +18,13 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtLblCategoryTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
             android:layout_alignParentStart="true"
             android:layout_marginTop="@dimen/_5sdp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Courses"
+            android:text="@{courseDataName.courseName}"
             android:textAlignment="textStart"
             tools:text="Featured courses" />
 

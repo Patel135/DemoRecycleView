@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="courseInfo"
             type="com.example.demoapprecycleview.model.HomeDataResponse.CoursesData.CoursesInfo" />
@@ -15,18 +16,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:id="@+id/imgFeaturedCategory"
+            android:layout_width="@dimen/_140sdp"
+            android:layout_height="@dimen/_110sdp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtCoursesName"
-            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_width="0dp"
             android:layout_marginTop="@dimen/_10sdp"
             android:ellipsize="end"
             android:lines="2"
             android:maxLines="2"
             android:text="@{courseInfo.courseTitle}"
-            android:textSize="@dimen/_13sdp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/imgFeaturedCategory"
+            app:layout_constraintStart_toStartOf="@+id/imgFeaturedCategory"
+            app:layout_constraintTop_toBottomOf="@+id/imgFeaturedCategory"
             tools:text="Learn Ethical Hacking from Scratch Your Stepping" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

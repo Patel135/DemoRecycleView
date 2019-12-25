@@ -1,10 +1,8 @@
 package com.example.demoapprecycleview
 
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -16,7 +14,7 @@ import com.example.demoapprecycleview.model.HomeDataRequest
 import com.example.demoapprecycleview.model.HomeDataResponse
 import com.example.demoapprecycleview.repository.HomeRepository
 import com.example.demoapprecycleview.viewmodel.HomeViewModel
-import com.kotlinusermodule.network.model.ResponseWrapper
+import com.example.demoapprecycleview.network.model.ResponseWrapper
 import com.stlacademy.home.interfaces.OnCourseItemClickListener
 
 class MainActivity : AppCompatActivity() {
@@ -54,7 +52,7 @@ class MainActivity : AppCompatActivity() {
                         val userData = bean.data
 
 //Add Courses list
-                        if (userData!!.coursesData.isNotEmpty()) {
+                        if (bean.data!!.coursesData.isNotEmpty()) {
                             coursesList.clear()
                             coursesList.addAll(userData!!.coursesData)
                             setCoursesData(coursesList)
@@ -66,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setCoursesData(coursesList: MutableList<HomeDataResponse.CoursesData>) {
-        homeCourseAdapter.setData(coursesList, object : OnCourseItemClickListener {
+        homeCourseAdapter.setData(this, coursesList, object : OnCourseItemClickListener {
             override fun onViewAllClick(viewAll: String) {
                 /*val bundle =
                     HomeFragmentDirections.actionHomeFragment2ToCourseListFragment(

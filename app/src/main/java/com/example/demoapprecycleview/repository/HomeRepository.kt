@@ -12,7 +12,7 @@ import com.example.demoapprecycleview.model.HomeDataResponse
 import com.kotlinusermodule.network.client.CustomSubscriber
 import com.kotlinusermodule.network.client.HttpCommonMethod
 import com.kotlinusermodule.network.model.RequestWrapper
-import com.kotlinusermodule.network.model.ResponseWrapper
+import com.example.demoapprecycleview.network.model.ResponseWrapper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 

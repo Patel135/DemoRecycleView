@@ -1,7 +1,7 @@
 package com.example.demoapprecycleview.network.client
 
 import com.example.demoapprecycleview.model.HomeDataResponse
-import com.kotlinusermodule.network.model.ResponseWrapper
+import com.example.demoapprecycleview.network.model.ResponseWrapper
 import io.reactivex.Observable
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded

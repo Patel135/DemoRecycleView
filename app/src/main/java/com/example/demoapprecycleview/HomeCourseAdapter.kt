@@ -1,11 +1,14 @@
 package com.example.demoapprecycleview
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.demoapprecycleview.databinding.RowHomeCoursesBinding
 import com.example.demoapprecycleview.model.HomeDataResponse
 import com.stlacademy.home.interfaces.OnCourseItemClickListener
+
 
 class HomeCourseAdapter : RecyclerView.Adapter<HomeCourseAdapter.ViewHolder>() {
 
@@ -13,11 +16,15 @@ class HomeCourseAdapter : RecyclerView.Adapter<HomeCourseAdapter.ViewHolder>() {
     private lateinit var homeSubCourseAdapter: HomeSubCourseAdapter
     private lateinit var coursesList: MutableList<HomeDataResponse.CoursesData>
     private lateinit var onCourseItemClickListener: OnCourseItemClickListener
+    private lateinit var context: Context
+    private var orientation: Int? = 0
 
     fun setData(
+        context: Context,
         coursesList: MutableList<HomeDataResponse.CoursesData>,
         onCourseItemClickListener: OnCourseItemClickListener
     ) {
+        this.context = context
         this.coursesList = coursesList
         this.onCourseItemClickListener = onCourseItemClickListener
         notifyDataSetChanged()
@@ -47,6 +54,17 @@ class HomeCourseAdapter : RecyclerView.Adapter<HomeCourseAdapter.ViewHolder>() {
 
             holder.binding.txtLblCategoryTitle.setOnClickListener {
                 onCourseItemClickListener.onViewAllClick(coursesList[position].courseShowAll)
+                if (orientation == 0) {
+                    orientation = 1
+                    val layoutManager =
+                        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                    holder.binding.rvSubCourseList.layoutManager = layoutManager
+                } else {
+                    orientation = 0
+                    val layoutManager =
+                        LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                    holder.binding.rvSubCourseList.layoutManager = layoutManager
+                }
             }
         }
 

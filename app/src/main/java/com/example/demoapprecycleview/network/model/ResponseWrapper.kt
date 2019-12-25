@@ -1,13 +1,12 @@
-package com.kotlinusermodule.network.model
+package com.example.demoapprecycleview.network.model
 
 import com.google.gson.JsonObject
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import org.json.JSONObject
 
 class ResponseWrapper<T> {
 
-    @SerializedName("data")
+    @SerializedName("Data")
     @Expose
     var data: T? = null
 
