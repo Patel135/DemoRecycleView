@@ -1,9 +1,9 @@
 package com.example.demoapprecycleview
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -12,10 +12,21 @@ import com.commonlibrary.util.Utils
 import com.example.demoapprecycleview.databinding.ActivityMainBinding
 import com.example.demoapprecycleview.model.HomeDataRequest
 import com.example.demoapprecycleview.model.HomeDataResponse
+import com.example.demoapprecycleview.model.Rss
+import com.example.demoapprecycleview.model.RssFeed
+import com.example.demoapprecycleview.network.client.ApiInterface
+import com.example.demoapprecycleview.network.model.ResponseWrapper
 import com.example.demoapprecycleview.repository.HomeRepository
 import com.example.demoapprecycleview.viewmodel.HomeViewModel
-import com.example.demoapprecycleview.network.model.ResponseWrapper
 import com.stlacademy.home.interfaces.OnCourseItemClickListener
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +34,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: HomeViewModel
     private var coursesList: MutableList<HomeDataResponse.CoursesData> = arrayListOf()
     private var homeCourseAdapter = HomeCourseAdapter()
+
+    private val BASE_URL = "https://howtodoinjava.com/"
+    private val builder = Retrofit.Builder().baseUrl(BASE_URL)
+        .addConverterFactory(SimpleXmlConverterFactory.create())
+    private val loggingInterceptor = HttpLoggingInterceptor()
+        .setLevel(HttpLoggingInterceptor.Level.BODY)
+    private val httpClient = OkHttpClient.Builder()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +51,9 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
 
         var homeRequest = HomeDataRequest("Android", "199", "1.0")
-        HomeRepository.getFavoriteList(this, homeRequest, viewModel.responseLiveDataFavoriteList)
+//        HomeRepository.getFavoriteList(this, homeRequest, viewModel.responseLiveDataFavoriteList)
 
+        xmlParsing()
 
         viewModel.responseLiveDataFavoriteList.observe(
             this,
@@ -84,5 +103,33 @@ class MainActivity : AppCompatActivity() {
 
         })
         binding!!.rvHomeCoursesList.adapter = homeCourseAdapter
+    }
+
+    private fun xmlParsing() {
+        httpClient.addInterceptor(loggingInterceptor)
+        builder.client(httpClient.build())
+        val retrofit = builder.build()
+        val rssService: ApiInterface = retrofit.create(ApiInterface::class.java)
+        val callAsync: Call<Rss> = rssService.getData()
+        callAsync.enqueue(object : Callback<Rss> {
+            override fun onResponse(call: Call<Rss>, response: Response<Rss>) {
+                if (response.isSuccessful()) {
+                    val apiResponse = response.body()
+                    // API response
+                    System.out.println("=====>$apiResponse")
+                } else {
+                    System.out.println("Request Error :: " + response.errorBody())
+                }
+            }
+
+            override fun onFailure(call: Call<Rss>, t: Throwable) {
+                if (call.isCanceled()) {
+                    println("Call was cancelled forcefully")
+                } else {
+                    println("Network Error :: " + t.getLocalizedMessage())
+                }
+            }
+        })
+
     }
 }

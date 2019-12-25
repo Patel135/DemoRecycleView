@@ -56,6 +56,10 @@ class ApiClient1 {
             return builder.build()
         }
 
+        private fun getRetrofitXML() {
+
+        }
+
         /**
          * generate OKhttp client
          */
